@@ -21,8 +21,8 @@ module UntypedAstUtils =
     let internal longIdentToArray (longIdent: LongIdent): Idents =
         longIdent |> List.map string |> List.toArray
 
-    let getDumpToken (content : string [])  = 
-        let sourceTok = FSharpSourceTokenizer([], "C:\\test.fsx")
+    let getDumpToken (content : string [])  =
+        let sourceTok = FSharpSourceTokenizer([], Some "C:\\test.fsx")
         let mutable tokens = List.empty
 
         let chop (input : string) len = 
@@ -369,6 +369,7 @@ module UntypedAstUtils =
                     addToUniqueRange(d.Range)
                     visitMember d
 
+            | SynTypeDefnRepr.Exception _ -> ()
 
         let rec visitDeclarations decls = 
             for declaration in decls do
@@ -391,8 +392,8 @@ module UntypedAstUtils =
                         visitType ty
 
                 | SynModuleDecl.Open (_, range) -> addToUniqueRange(range)
-                
-                | SynModuleDecl.NestedModule (_, decls, _, _) ->                    
+
+                | SynModuleDecl.NestedModule (_, _, decls, _, _) ->
                     visitDeclarations decls
                 | SynModuleDecl.Attributes (_, range) -> 
                     addToUniqueRange(range)
@@ -400,7 +401,7 @@ module UntypedAstUtils =
 
         let visitModulesAndNamespaces modulesOrNss =
             for moduleOrNs in modulesOrNss do
-                let (SynModuleOrNamespace(_, _, decls, _, _, _, _)) = moduleOrNs
+                let (SynModuleOrNamespace(_, _, _, decls, _, _, _, _)) = moduleOrNs
                 visitDeclarations decls
                 
         ast 

@@ -10,7 +10,7 @@ open FSharp.Data
 open FParsec
 
 open FSharpLint.Rules.Binding
-open FSharpLint.Framework.HintMatcher
+open FSharpLint.Framework.FuzzyHintMatcher
 open FSharpLint.Framework.HintParser
 open FSharpLint.Framework.Configuration
 

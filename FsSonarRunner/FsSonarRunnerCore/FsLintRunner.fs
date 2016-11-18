@@ -18,8 +18,8 @@ type FsLintRule(name : string, value : string) =
 
 type SonarRules() = 
 
-    let fsLintProfile = 
-        let resourceManager = new ResourceManager("Text" ,Assembly.Load("FSharpLint.Framework"))
+    let fsLintProfile =
+        let resourceManager = new ResourceManager("Text" ,Assembly.Load("FSharpLint.Core"))
         let set = resourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true)
         let mutable rules = List.Empty
         
